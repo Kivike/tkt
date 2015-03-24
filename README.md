@@ -1,0 +1,2 @@
+# tkt
+Tietokonetekniikan harjoitustyöt
