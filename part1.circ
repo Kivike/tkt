@@ -6,6 +6,7 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
       <a name="facing" val="west"/>
       <a name="fanout" val="3"/>
       <a name="incoming" val="12"/>
+      <a name="appear" val="right"/>
       <a name="bit1" val="0"/>
       <a name="bit2" val="0"/>
       <a name="bit3" val="0"/>
@@ -52,7 +53,12 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
       <a name="inputs" val="2"/>
     </tool>
   </lib>
-  <lib desc="#Plexers" name="2"/>
+  <lib desc="#Plexers" name="2">
+    <tool name="Multiplexer">
+      <a name="select" val="3"/>
+      <a name="width" val="8"/>
+    </tool>
+  </lib>
   <lib desc="#Arithmetic" name="3"/>
   <lib desc="#Memory" name="4">
     <tool name="ROM">
@@ -2134,6 +2140,93 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
     </comp>
     <comp loc="(550,690)" name="16-bit register">
       <a name="label" val="IR"/>
+    </comp>
+  </circuit>
+  <circuit name="BusFor8">
+    <a name="circuit" val="BusFor8"/>
+    <a name="clabel" val=""/>
+    <a name="clabelup" val="east"/>
+    <a name="clabelfont" val="SansSerif plain 12"/>
+    <wire from="(130,230)" to="(380,230)"/>
+    <wire from="(110,510)" to="(170,510)"/>
+    <wire from="(170,130)" to="(230,130)"/>
+    <wire from="(160,260)" to="(160,460)"/>
+    <wire from="(420,250)" to="(540,250)"/>
+    <wire from="(110,460)" to="(160,460)"/>
+    <wire from="(130,230)" to="(130,310)"/>
+    <wire from="(140,240)" to="(380,240)"/>
+    <wire from="(400,290)" to="(400,310)"/>
+    <wire from="(170,110)" to="(170,130)"/>
+    <wire from="(150,250)" to="(380,250)"/>
+    <wire from="(110,410)" to="(150,410)"/>
+    <wire from="(180,280)" to="(180,560)"/>
+    <wire from="(70,110)" to="(170,110)"/>
+    <wire from="(70,80)" to="(230,80)"/>
+    <wire from="(70,140)" to="(230,140)"/>
+    <wire from="(150,250)" to="(150,410)"/>
+    <wire from="(110,360)" to="(140,360)"/>
+    <wire from="(250,150)" to="(250,310)"/>
+    <wire from="(160,260)" to="(380,260)"/>
+    <wire from="(120,220)" to="(120,260)"/>
+    <wire from="(230,80)" to="(230,120)"/>
+    <wire from="(170,270)" to="(380,270)"/>
+    <wire from="(110,310)" to="(130,310)"/>
+    <wire from="(250,310)" to="(400,310)"/>
+    <wire from="(170,270)" to="(170,510)"/>
+    <wire from="(110,210)" to="(380,210)"/>
+    <wire from="(110,260)" to="(120,260)"/>
+    <wire from="(140,240)" to="(140,360)"/>
+    <wire from="(180,280)" to="(380,280)"/>
+    <wire from="(110,560)" to="(180,560)"/>
+    <wire from="(120,220)" to="(380,220)"/>
+    <comp lib="0" loc="(110,560)" name="Pin">
+      <a name="width" val="16"/>
+    </comp>
+    <comp lib="0" loc="(540,250)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="16"/>
+      <a name="label" val="OUT"/>
+    </comp>
+    <comp lib="0" loc="(110,360)" name="Pin">
+      <a name="width" val="16"/>
+    </comp>
+    <comp lib="0" loc="(110,260)" name="Pin">
+      <a name="width" val="16"/>
+    </comp>
+    <comp lib="0" loc="(110,210)" name="Pin">
+      <a name="width" val="16"/>
+    </comp>
+    <comp lib="0" loc="(110,310)" name="Pin">
+      <a name="width" val="16"/>
+    </comp>
+    <comp lib="0" loc="(110,410)" name="Pin">
+      <a name="width" val="16"/>
+    </comp>
+    <comp lib="2" loc="(420,250)" name="Multiplexer">
+      <a name="select" val="3"/>
+      <a name="width" val="16"/>
+    </comp>
+    <comp lib="0" loc="(250,150)" name="Splitter">
+      <a name="facing" val="west"/>
+      <a name="fanout" val="3"/>
+      <a name="incoming" val="3"/>
+      <a name="appear" val="right"/>
+    </comp>
+    <comp lib="0" loc="(70,110)" name="Pin">
+      <a name="label" val="s1"/>
+    </comp>
+    <comp lib="0" loc="(70,80)" name="Pin">
+      <a name="label" val="s0"/>
+    </comp>
+    <comp lib="0" loc="(110,510)" name="Pin">
+      <a name="width" val="16"/>
+    </comp>
+    <comp lib="0" loc="(70,140)" name="Pin">
+      <a name="label" val="s2"/>
+    </comp>
+    <comp lib="0" loc="(110,460)" name="Pin">
+      <a name="width" val="16"/>
     </comp>
   </circuit>
 </project>
