@@ -13,9 +13,11 @@ public class Main {
 		Cleaner.removeEmpty(text);
 		Cleaner.removeComments(text);
 		Cleaner.removeWhitespace(text);
+		Processer.initializeVariables(text);
 		
-		System.out.println(text);
-
+		for(String line : text){
+			System.out.println(line);
+		}
 	}
 
 	public static ArrayList<String> readFile(String filename){
