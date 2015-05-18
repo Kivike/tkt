@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Processer {
-
+	
 	public static void initializeVariables(ArrayList<String> text) {
 		
 		HashMap<String, Integer> variables = new HashMap<String, Integer>();
@@ -25,6 +25,43 @@ public class Processer {
 				}
 			}
 		}
+	}
+	
+	
+	public static void formHexCode(String symbol, int memory) {
+		String hexCode;
+		
+		switch(symbol) {
+			case "AND": 
+				hexCode = "0" + memory;
+				break;
+				
+			case "ADD":
+				hexCode = "1" + memory;
+				break;
+				
+			case "LDA":
+				hexCode = "2" + memory;
+				break;
+			
+			case "STA":
+				hexCode = "3" + memory;
+				break;
+			
+			case "BUN":
+				hexCode = "4" + memory;
+				break;
+			
+			case "BSA":
+				hexCode = "5" + memory;
+				break;
+			
+			case "ISZ":
+				hexCode = "6" + memory;
+				break;	
+		}
+		
+		
 	}
 
 }
