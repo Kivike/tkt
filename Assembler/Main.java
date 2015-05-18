@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,9 +12,23 @@ import javax.xml.bind.DatatypeConverter;
 public class Main {
 
 	public static void main(String[] args) {
+		String inputFile = "./testi004.asm";
+		String outputFile = "./output.bin";
 		
-		String filename = "./testi004.asm";
-		ArrayList<String> text = readFile(filename);
+		if(args.length == 1) {
+			if(args[0].equals("--info")) {
+				System.out.printf("Peetu Nuottajärvi, %d\n", (6969696));
+				System.out.printf("Roope Rajala, %d\n", (2374556));
+				return;
+			}else{
+				inputFile = args[0];
+			}
+		}else if(args.length == 2) {
+			inputFile = args[0];
+			outputFile = args[1];
+		}
+		
+		ArrayList<String> text = readFile(inputFile);
 		Cleaner.removeEmpty(text);
 		Cleaner.removeComments(text);
 		Cleaner.removeWhitespace(text);
@@ -31,7 +44,7 @@ public class Main {
 	        System.out.println( key + "-" + value );
 	    }
 		
-		writeFile(memorySlots, "");
+		writeFile(memorySlots, outputFile);
 	}
 
 	public static ArrayList<String> readFile(String filename){

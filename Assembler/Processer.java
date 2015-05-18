@@ -76,20 +76,22 @@ public class Processer {
 	// Muuta muuttujan arvo heksakoodiksi
 	public static String formHexCodeVariable(String line){
 		line = line.substring(line.indexOf(", ") + ", ".length());
-		String value;
+		String value = "";
 		if(line.contains("DEC")){
-			value = Integer.toHexString(Integer.parseInt(line.substring(line.indexOf("DEC ") + "DEC ".length())));
-			//If number is a 8 bit 2's complement or over 4 bit number	
-			if(value.length() > 4){
-				if(value.substring(0, 4).equals("ffff")){
-					value = value.substring(4);
-				}else{
-					new Exception("only 4 byte values allowed");
-				}
-			}
-			
+			value = Integer.toHexString(Integer.parseInt(line.substring(line.indexOf("DEC ") + "DEC ".length())));			
+		}else if(line.contains("HEX")){
+			value = line.substring(line.indexOf("HEX ") + "HEX ".length());
 		}else{
-			value = line;
+			new Exception("No base chosen for integer").printStackTrace();
+		}
+		
+		//If number is a 8 bit 2's complement or over 4 bit number	
+		if(value.length() > 4){
+			if(value.substring(0, 4).equals("ffff")){
+				value = value.substring(4);
+			}else{
+				new Exception("only 4 byte values allowed");
+			}
 		}
 		return value;
 	}
