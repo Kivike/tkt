@@ -95,7 +95,7 @@ public class Processer {
 	
 	// Hae komennolle heksakoodin alku hashmapista ja lis‰‰ muistipaikka komentoon
 	public static String formHexCode(String symbol, int memory) {
-		String hexCode = Integer.toString(Command.symbols.get(symbol));
+		String hexCode = Integer.toHexString(Command.symbols.get(symbol));
 		
 		hexCode += memory;
 		
