@@ -26,6 +26,8 @@ public class Main {
 	        String value = entry.getValue();
 	        System.out.println( key + "-" + value );
 	    }
+		
+		writeFile(memorySlots);
 	}
 
 	public static ArrayList<String> readFile(String filename){
@@ -49,10 +51,8 @@ public class Main {
 	    return null;
 	}
 	
-	public static ArrayList<Byte> translateToBinary(ArrayList<String> text){
+	public static void writeFile(HashMap<Integer, String> memorySlots){
 		
-		
-		return null;
 	}
 }
 

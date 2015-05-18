@@ -65,7 +65,7 @@ public class Processer {
 			if(line.contains(",")){
 				line = formHexCodeVariable(line);
 			}else if(line.contains(" ")){
-			    line = formHexCode(line.substring(0, line.indexOf(" ")), i);
+			    line = formHexCode(line.substring(0, line.indexOf(" ")), Integer.parseInt(line.substring(line.indexOf(" ") + 1)));
 			}else{
 				line = formHexCode(line);
 			}
@@ -73,6 +73,7 @@ public class Processer {
 		}
 	}
 	
+	// Muuta muuttujan arvo heksakoodiksi
 	public static String formHexCodeVariable(String line){
 		line = line.substring(line.indexOf(", ") + ", ".length());
 		String value;
