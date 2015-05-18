@@ -65,9 +65,9 @@ public class Processer {
 			if(line.contains(",")){
 				line = formHexCodeVariable(line);
 			}else if(line.contains(" ")){
-			    //line = formHexCode(line.substring(0, line.indexOf(" ")), i);
+			    line = formHexCode(line.substring(0, line.indexOf(" ")), i);
 			}else{
-				//line = formHexCode(line);
+				line = formHexCode(line);
 			}
 			memorySlots.put(i, line);
 		}
@@ -105,7 +105,7 @@ public class Processer {
 	// Hae komennolle heksakoodi hashmapista
 	public static String formHexCode(String symbol) {
 		
-		return Integer.toString(Command.symbols.get(symbol));
+		return Integer.toHexString(Command.symbols.get(symbol));
 		
 	}
 
