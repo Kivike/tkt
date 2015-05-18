@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.lang.String;
 
-
-
 public class Cleaner {
 	
 	public static ArrayList<String> removeComments(ArrayList<String> text){
@@ -12,7 +10,6 @@ public class Cleaner {
 				if(text.get(i).charAt(j) == '/'){
 					text.set(i, text.get(i).substring(0, j));
 				}
-				
 			}
 		}
 		return removeEmpty(text);
@@ -29,13 +26,16 @@ public class Cleaner {
 	
 	public static ArrayList<String> removeWhitespace(ArrayList<String> text){
 		for(int i = 0; i < text.size(); i++){
-			String str = text.get(i).replaceAll("\t", "");
+			String str = text.get(i).replaceAll("\t", " ");
 			str = str.replaceAll("\n", "");
 			while(true){
 				if(str.indexOf("  ") == -1){
 					break;
 				}
 				str = str.replaceAll("  ", " ");	
+			}
+			if(str.indexOf(' ') == 0){
+				str = str.substring(1);
 			}
 			text.set(i, str);
 		}
