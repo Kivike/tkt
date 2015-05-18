@@ -19,11 +19,12 @@ public class Main {
 		Processer.removeEnd(text);
 		HashMap<Integer, String> memorySlots = Processer.findMemorySlots(text, org);
 		Processer.initializeVariables(memorySlots, org);
+		Processer.commandSeparator(memorySlots, org);
 		
 		for (Entry<Integer, String> entry : memorySlots.entrySet()) {
 			Integer key = entry.getKey();
 	        String value = entry.getValue();
-	        System.out.println("key, " + key + " value " + value );
+	        System.out.println( key + "-" + value );
 	    }
 	}
 

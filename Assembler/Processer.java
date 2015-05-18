@@ -58,5 +58,39 @@ public class Processer {
 		}
 		return text;
 	}
+	
+	public static void commandSeparator(HashMap<Integer, String> memorySlots, int org){
+		for(int i = org; i < memorySlots.size() + org; i++){
+			String line = memorySlots.get(i);
+			if(line.contains(",")){
+				line = formHexCodeVariable(line);
+			}else if(line.contains(" ")){
+			    //line = formHexCode(line.substring(0, line.indexOf(" ")), i);
+			}else{
+				//line = formHexCode(line);
+			}
+			memorySlots.put(i, line);
+		}
+	}
+	
+	public static String formHexCodeVariable(String line){
+		line = line.substring(line.indexOf(", ") + ", ".length());
+		String value;
+		if(line.contains("DEC")){
+			value = Integer.toHexString(Integer.parseInt(line.substring(line.indexOf("DEC ") + "DEC ".length())));
+			//If number is a 8 bit 2's complement or over 4 bit number	
+			if(value.length() > 4){
+				if(value.substring(0, 4).equals("ffff")){
+					value = value.substring(4);
+				}else{
+					new Exception("only 4 byte values allowed");
+				}
+			}
+			
+		}else{
+			value = line;
+		}
+		return value;
+	}
 
 }
