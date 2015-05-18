@@ -2,6 +2,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 
 public class Main {
@@ -13,11 +15,16 @@ public class Main {
 		Cleaner.removeEmpty(text);
 		Cleaner.removeComments(text);
 		Cleaner.removeWhitespace(text);
-		Processer.initializeVariables(text);
+		int org = Processer.getOrg(text);
+		Processer.removeEnd(text);
+		HashMap<Integer, String> memorySlots = Processer.findMemorySlots(text, org);
+		Processer.initializeVariables(memorySlots, org);
 		
-		for(String line : text){
-			System.out.println(line);
-		}
+		for (Entry<Integer, String> entry : memorySlots.entrySet()) {
+			Integer key = entry.getKey();
+	        String value = entry.getValue();
+	        System.out.println("key, " + key + " value " + value );
+	    }
 	}
 
 	public static ArrayList<String> readFile(String filename){
