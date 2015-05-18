@@ -27,40 +27,19 @@ public class Processer {
 		}
 	}
 	
+	// Hae komennolle heksakoodin alku hashmapista ja lis‰‰ muistipaikka komentoon
+	public static String formHexCode(String symbol, int memory) {
+		String hexCode = Integer.toString(Command.symbols.get(symbol));
+		
+		hexCode += memory;
+		
+		return hexCode;
+	}
 	
-	public static void formHexCode(String symbol, int memory) {
-		String hexCode;
+	// Hae komennolle heksakoodi hashmapista
+	public static String formHexCode(String symbol) {
 		
-		switch(symbol) {
-			case "AND": 
-				hexCode = "0" + memory;
-				break;
-				
-			case "ADD":
-				hexCode = "1" + memory;
-				break;
-				
-			case "LDA":
-				hexCode = "2" + memory;
-				break;
-			
-			case "STA":
-				hexCode = "3" + memory;
-				break;
-			
-			case "BUN":
-				hexCode = "4" + memory;
-				break;
-			
-			case "BSA":
-				hexCode = "5" + memory;
-				break;
-			
-			case "ISZ":
-				hexCode = "6" + memory;
-				break;	
-		}
-		
+		return Integer.toString(Command.symbols.get(symbol));
 		
 	}
 

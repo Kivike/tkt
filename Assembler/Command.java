@@ -1,6 +1,42 @@
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class Command {
-	public static final int AND = 0x0000;
+	
+	public static final HashMap<String, Integer> symbols = new HashMap<String, Integer>();
+	
+	static {
+		symbols.put("AND", 0x0);
+		symbols.put("ADD", 0x1);
+		symbols.put("LDA", 0x2);
+		symbols.put("STA", 0x3);
+		symbols.put("BUN", 0x4);
+		symbols.put("BSA", 0x5);
+		symbols.put("ISZ", 0x6);
+		
+		symbols.put("CLA", 0x7800);
+		symbols.put("CLE", 0x7400);
+		symbols.put("CMA", 0x7200);
+		symbols.put("CME", 0x7100);
+		symbols.put("CIR", 0x7080);
+		symbols.put("CIL", 0x7040);
+		symbols.put("INC", 0x7020);
+		symbols.put("SPA", 0x7010);
+		symbols.put("SNA", 0x7008);
+		symbols.put("SZA", 0x7004);
+		symbols.put("SZE", 0x7002);
+		symbols.put("HLT", 0x7001);
+		
+		symbols.put("INP", 0xF800);
+		symbols.put("OUT", 0xF400);
+		symbols.put("SKI", 0xF200);
+		symbols.put("SKO", 0xF100);
+		symbols.put("ION", 0xF080);
+		symbols.put("IOF", 0xF040);
+	}
+	
+	/*public static final int AND = 0x0000;
 	public static final int ADD = 0x1000;
 	public static final int LDA = 0x2000;
 	public static final int STA = 0x3000;
@@ -35,4 +71,5 @@ public class Command {
 	public static final int SKO = 0xF100;
 	public static final int ION = 0xF080;
 	public static final int IOF = 0xF040;
+	*/
 }
