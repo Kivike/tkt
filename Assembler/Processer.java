@@ -92,5 +92,21 @@ public class Processer {
 		}
 		return value;
 	}
+	
+	// Hae komennolle heksakoodin alku hashmapista ja lis‰‰ muistipaikka komentoon
+	public static String formHexCode(String symbol, int memory) {
+		String hexCode = Integer.toString(Command.symbols.get(symbol));
+		
+		hexCode += memory;
+		
+		return hexCode;
+	}
+	
+	// Hae komennolle heksakoodi hashmapista
+	public static String formHexCode(String symbol) {
+		
+		return Integer.toString(Command.symbols.get(symbol));
+		
+	}
 
 }
