@@ -1,9 +1,13 @@
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
+
+import javax.xml.bind.DatatypeConverter;
 
 
 public class Main {
@@ -27,7 +31,7 @@ public class Main {
 	        System.out.println( key + "-" + value );
 	    }
 		
-		writeFile(memorySlots);
+		writeFile(memorySlots, "");
 	}
 
 	public static ArrayList<String> readFile(String filename){
@@ -51,8 +55,33 @@ public class Main {
 	    return null;
 	}
 	
-	public static void writeFile(HashMap<Integer, String> memorySlots){
+	public static void writeFile(HashMap<Integer, String> memorySlots, String filename){
+		byte dataToWrite[] = new byte[1024];
 		
+		for(int i = 0; i < dataToWrite.length; i+=2){
+			if(memorySlots.get(i / 2) == null){ 
+				dataToWrite[i] = 0;
+				dataToWrite[i + 1] = 0;				
+				continue;
+			}
+			
+			byte[] data = DatatypeConverter.parseHexBinary(memorySlots.get(i / 2));
+			if(data.length == 2){
+				dataToWrite[i] = data[0];
+				dataToWrite[i + 1] = data[1];
+			}else{
+				dataToWrite[i] = 0;
+				dataToWrite[i + 1] = data[0];
+			}
+		}
+		FileOutputStream out;
+		try {
+			out = new FileOutputStream(filename);
+			out.write(dataToWrite);
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
 
