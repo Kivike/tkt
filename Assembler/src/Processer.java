@@ -162,7 +162,6 @@ public class Processer {
 	 * Parse type M command from a row and return command as integer
 	 */
 	public short getTypeMCommandFromRow(String row, ArrayList<Label> labels) {
-		System.out.print(row + " ");
 		String[] splitString = row.split(" ");
 
 		Command.TypeM commandType = getTypeMCommandTypeFromString(splitString[0]);
@@ -209,7 +208,7 @@ public class Processer {
 			}
 		}
 
-		System.out.println("F:" + firstPart + " S:" + secondPart);
+		if(Assembler.debug) System.out.println("Mtype, First:" + firstPart + " Second:" + secondPart);
 
 		command = (short)Integer.parseInt(firstPart + secondPart, 16);
 		return command;

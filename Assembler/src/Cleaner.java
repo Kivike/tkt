@@ -37,6 +37,8 @@ public class Cleaner {
 	}
 
 	public ArrayList<String> cleanAll(ArrayList<String> rows) {
+		if(Assembler.debug) System.out.println("#### CLEAN ALL ROWS ####");
+
 		ArrayList<String> newRows = new ArrayList<String>();
 
 		for(int i = 0; i < rows.size(); i++) {
