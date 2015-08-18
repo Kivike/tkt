@@ -27,7 +27,13 @@ public class Main {
 	public static void main(String[] args) {
 		processArguments(args);
 		Assembler assembler = new Assembler();
-		assembler.run(inputFile, outputFile, DEBUG_MODE);
+
+		try {
+			assembler.run(inputFile, outputFile, DEBUG_MODE);
+		} catch (Exception ex) {
+			System.out.println("Unexpected error");
+			System.exit(8);
+		}
 
 		System.out.println("Completed succesfully");
 		System.exit(0);

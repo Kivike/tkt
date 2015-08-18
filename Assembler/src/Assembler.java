@@ -35,6 +35,7 @@ public class Assembler {
 	 */
     private ArrayList<String> firstIteration(ArrayList<Label> labels, ArrayList<String> rows, Processer processer) {
         if(debug) System.out.println("#### FIRST ITERATION ####");
+
         short lc = 0;
 
         // Loop through rows
@@ -129,12 +130,10 @@ public class Assembler {
             if(debug) printRows(lines);
 
             return lines;
-        }catch(IOException e){
+        } catch(IOException e) {
             e.printStackTrace();
             System.exit(1);
         }
-
-
 
         return null;
     }

@@ -171,24 +171,44 @@ public class Processer {
 		}
 
 		short command;
-		String firstPart = null;
-		String secondPart = null;
+		String firstPart = Integer.toHexString(getMTypeCommandFirstPart(splitString, commandType));
+		String secondPart = Integer.toHexString(getMTypeCommandSecondPart(splitString, labels));
+
+		if(Assembler.debug) System.out.println("Mtype, First:" + firstPart + " Second:" + secondPart);
+
+		command = (short)Integer.parseInt(firstPart + secondPart, 16);
+		return command;
+	}
+
+	/*
+	 * Get first part of M command (command type)
+	 */
+	private short getMTypeCommandFirstPart(String[] splitString, Command.TypeM commandType) {
+		short firstPart = 0;
 
 		try {
 			if(isCommandDirect(splitString)) {
-				firstPart = Integer.toHexString(Command.typeMsymbolsDirect.get(commandType));
+				firstPart = Command.typeMsymbolsDirect.get(commandType);
 			} else {
-				firstPart = Integer.toHexString(Command.typeMsymbolsIndirect.get(commandType));
+				firstPart = Command.typeMsymbolsIndirect.get(commandType);
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			System.exit(4);
 		}
 
+		return firstPart;
+	}
+
+	/*
+	 * Get second part of M command (command parameter)
+	 */
+	private short getMTypeCommandSecondPart(String[] splitString, ArrayList<Label> labels) {
+		short secondPart = 0;
+
 		if(Character.isDigit(splitString[1].charAt(0))) {
 			try {
-				short secondPartInt = Short.parseShort(splitString[1], 16);
-				secondPart = String.valueOf(secondPartInt);
+				secondPart = Short.parseShort(splitString[1], 16);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 				System.exit(7);
@@ -200,7 +220,7 @@ public class Processer {
 					Label label = labels.get(i);
 
 					if(label.name.equals(splitString[1])) {
-						secondPart = Integer.toHexString(label.memorySlot);
+						secondPart = label.memorySlot;
 					}
 				}
 			} catch(Exception ex) {
@@ -208,12 +228,8 @@ public class Processer {
 			}
 		}
 
-		if(Assembler.debug) System.out.println("Mtype, First:" + firstPart + " Second:" + secondPart);
-
-		command = (short)Integer.parseInt(firstPart + secondPart, 16);
-		return command;
+		return secondPart;
 	}
-
 	/*
 	 * Parse type R command from a row and return command as integer
 	 */
