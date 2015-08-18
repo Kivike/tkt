@@ -1,8 +1,3 @@
-import java.io.*;
-import java.util.*;
-
-import javax.xml.bind.DatatypeConverter;
-
 /*
  * CodeAnAssembler
  * 16-bit basic computer assembler
@@ -15,7 +10,6 @@ import javax.xml.bind.DatatypeConverter;
  *******************************
  *   Read README.MD for usage  *
  *******************************
- *
  */
 
 /*
@@ -23,8 +17,8 @@ import javax.xml.bind.DatatypeConverter;
  */
 public class Main {
 	// Show debug logs
-	final static boolean DEBUG_MODE = false;
-	final static String TEST_FILE = "./testi005.asm";
+	final static boolean DEBUG_MODE = true;
+	final static String TEST_FILE = "./testi006.asm";
 	final static String DEFAULT_OUTPUT_FILE = "./output.bin";
 
 	private static String inputFile;

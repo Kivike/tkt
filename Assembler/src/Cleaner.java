@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.lang.String;
 
+/*
+ * Cleans rows so they can be parsed with Assembler
+ */
 public class Cleaner {
 	/*
 	 * Remove everything after / from a string
@@ -56,6 +59,8 @@ public class Cleaner {
 
 			newRows.add(row);
 		}
+
+		if(Assembler.debug) Assembler.printRows(newRows);
 
 		return newRows;
 	}

@@ -25,7 +25,7 @@ public class Processer {
 	 * @param row Row to parse command from
 	 * @param labels List of labels fetched at first iteration
 	 * @return Returns command as short (handle as hexadecimal)
-	 */
+	 **/
 	public short parseCommandFromRow(String row, ArrayList<Label> labels) {
 		Command.Type commandType = getCommandType(row);
 		short command = 0;

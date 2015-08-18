@@ -15,21 +15,17 @@ public class Assembler {
         this.outputFile = outputFile;
         this.debug = debug;
 
-        ArrayList<String> text = readFile(inputFile);
-        if(debug) printRows(text);
-
-        ArrayList<Label> labels = new ArrayList<Label>();
+        ArrayList<String> rows = readFile(inputFile);
 
         Cleaner cleaner = new Cleaner();
         // Clean comments, whitespaces etc. from the text
-        text = cleaner.cleanAll(text);
-        if(debug) printRows(text);
+        rows = cleaner.cleanAll(rows);
 
         Processer processer = new Processer();
-        // First iteration finds labels and adds their values and namues to a Label list
 
-        text = firstIteration(labels, text, processer);
-        TreeMap<Integer, Short> commands = secondIteration(labels, text, processer);;
+        ArrayList<Label> labels = new ArrayList<Label>();
+        rows = firstIteration(labels, rows, processer);
+        TreeMap<Integer, Short> commands = secondIteration(labels, rows, processer);;
 
         writeOutputFile(commands);
     }
@@ -129,33 +125,44 @@ public class Assembler {
                 line = br.readLine();
             }
             br.close();
+
+            if(debug) printRows(lines);
+
             return lines;
         }catch(IOException e){
             e.printStackTrace();
             System.exit(1);
         }
 
+
+
         return null;
     }
 
-    // Print list of strings
-    private void printRows(ArrayList<String> rows) {
+    /*
+     * Print list of strings
+     */
+    public static void printRows(ArrayList<String> rows) {
         for(int i = 0; i < rows.size(); i++) {
             System.out.println(rows.get(i));
         }
     }
 
-    // Print list of Labels
-    // See Label class
-    private void printLabels(ArrayList<Label> labels) {
+    /*
+     * Print list of Labels
+     * See Label class
+     */
+    public static void printLabels(ArrayList<Label> labels) {
         System.out.println("LABELS:");
         for(int i = 0; i < labels.size(); i++) {
             System.out.println(labels.get(i).name + "," + labels.get(i).command);
         }
     }
 
-    // Print TreeMap<Integer MEMORYSLOT, Short COMMAND> commands
-    private void printCommands(TreeMap<Integer, Short> commands) {
+    /*
+     * Print TreeMap<Integer MEMORYSLOT, Short COMMAND> commands
+     */
+    public static void printCommands(TreeMap<Integer, Short> commands) {
         System.out.println("[MEMORY SLOT] COMMAND");
         for(Map.Entry<Integer, Short> entry : commands.entrySet()) {
             Integer memorySlot = entry.getKey();
@@ -165,7 +172,9 @@ public class Assembler {
         }
     }
 
-    // Write commands to a binary file (16-bit)
+    /*
+     * Write commands to a binary file (16-bit)
+     */
     public void writeOutputFile(TreeMap<Integer, Short> commands) {
         if(debug) System.out.println("#### WRITE BINARY TO FILE ####");
 
