@@ -3,7 +3,7 @@ import java.util.*;
 /*
  * Processer parses commands from strings
  */
-public class Processer {
+public class CommandParser {
 	public short checkStringForORG(String string) {
 		short origin = -1;
 
@@ -213,7 +213,6 @@ public class Processer {
 				ex.printStackTrace();
 				System.exit(7);
 			}
-
 		} else {
 			try {
 				for(int i = 0; i < labels.size(); i++) {

@@ -21,11 +21,11 @@ public class Assembler {
         // Clean comments, whitespaces etc. from the text
         rows = cleaner.cleanAll(rows);
 
-        Processer processer = new Processer();
+        CommandParser commandParser = new CommandParser();
 
         ArrayList<Label> labels = new ArrayList<Label>();
-        rows = firstIteration(labels, rows, processer);
-        TreeMap<Integer, Short> commands = secondIteration(labels, rows, processer);;
+        rows = firstIteration(labels, rows, commandParser);
+        TreeMap<Integer, Short> commands = secondIteration(labels, rows, commandParser);;
 
         writeOutputFile(commands);
     }
@@ -33,7 +33,7 @@ public class Assembler {
     /*
 	 * First iteration fetches labels from text and stores them to ArrayList of labels (see Label class)
 	 */
-    private ArrayList<String> firstIteration(ArrayList<Label> labels, ArrayList<String> rows, Processer processer) {
+    private ArrayList<String> firstIteration(ArrayList<Label> labels, ArrayList<String> rows, CommandParser commandParser) {
         if(debug) System.out.println("#### FIRST ITERATION ####");
 
         short lc = 0;
@@ -51,9 +51,9 @@ public class Assembler {
                 break;
             }
 
-            if (processer.rowIsLabel(row)) {
+            if (commandParser.rowIsLabel(row)) {
                 // If row is label, get the int value and add it to dict by its name
-                Label label = processer.getLabelFromString(row);
+                Label label = commandParser.getLabelFromString(row);
                 label.memorySlot = lc;
                 labels.add(labels.size(), label);
 
@@ -71,7 +71,7 @@ public class Assembler {
     /*
      * Second iteration gets command integer for each row and stores them by memory slot to HashMap
      */
-    private TreeMap<Integer, Short> secondIteration(ArrayList<Label> labels, ArrayList<String> rows, Processer processer) {
+    private TreeMap<Integer, Short> secondIteration(ArrayList<Label> labels, ArrayList<String> rows, CommandParser commandParser) {
         if(debug) System.out.println("#### SECOND ITERATION ####");
 
         int lc = 0;
@@ -94,7 +94,7 @@ public class Assembler {
             }
 
             // Check if row changes memory slot
-            int org = processer.checkStringForORG(row);
+            int org = commandParser.checkStringForORG(row);
 
             // If new origin found, set it as lc and continue to next row
             if(org != -1) {
@@ -102,7 +102,7 @@ public class Assembler {
                 continue;
             }
 
-            short command = processer.parseCommandFromRow(row, labels);
+            short command = commandParser.parseCommandFromRow(row, labels);
             commandByMemorySlot.put(lc, command);
 
             lc++;
