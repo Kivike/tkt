@@ -7,7 +7,4 @@ public class Label {
 
     // Label command
     public String command;
-
-    // Labels memory slot
-    public Short memorySlot;
 }
