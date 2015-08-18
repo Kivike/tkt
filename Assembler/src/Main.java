@@ -52,7 +52,7 @@ public class Main {
 				System.out.printf("Peetu Nuottaj�rvi, %d\n", (6969696));
 				System.out.printf("Roope Rajala, %d\n", (2374556));
 				return;
-			}else{
+			} else {
 				inputFile = args[0];
 			}
 		} else if(args.length == 2) {

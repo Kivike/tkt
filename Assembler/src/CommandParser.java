@@ -1,7 +1,7 @@
 import java.util.*;
 
 /*
- * Processer parses commands from strings
+ * Parses commands from strings
  */
 public class CommandParser {
 	public short checkStringForORG(String string) {

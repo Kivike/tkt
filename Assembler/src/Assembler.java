@@ -3,8 +3,8 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
-/**
- * Created by roope_000 on 18.8.2015.
+/*
+ * Assembler creates binary file from text file with basic computer commands
  */
 public class Assembler {
     private final int MAX_LC = 5000;

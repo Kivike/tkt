@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.lang.String;
 
 /*
- * Cleans rows so they can be parsed with Assembler
+ * Cleans rows so they can be parsed with CommandParser
  */
 public class Cleaner {
 	/*
