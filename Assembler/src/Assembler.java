@@ -73,9 +73,19 @@ public class Assembler {
                 break;
             }
 
+            // Check if row changes memory slot
+            short org = commandParser.checkStringForORG(row);
+
+            // If new origin found, set it as lc and continue to next row
+            if(org != -1) {
+                lc = org;
+                continue;
+            }
+
             if (commandParser.rowIsLabel(row)) {
                 // If row is label, get the int value and add it to dict by its name
                 Label label = commandParser.getLabelFromString(row);
+                System.out.println("lc: " + lc);
                 label.memorySlot = lc;
                 labels.add(labels.size(), label);
 
@@ -154,7 +164,7 @@ public class Assembler {
             if(debug) printRows(lines);
 
             return lines;
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             printErrorAndExit(1);
         }
@@ -207,6 +217,7 @@ public class Assembler {
         if(debug) System.out.println("#### WRITE BINARY TO FILE ####");
 
         int lastMemorySlot = commands.lastKey();
+
         try {
             DataOutputStream os = new DataOutputStream(new FileOutputStream(outputFile));
 
