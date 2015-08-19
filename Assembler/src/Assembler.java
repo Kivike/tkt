@@ -86,7 +86,9 @@ public class Assembler {
                 // If row is label, get the int value and add it to dict by its name
                 Label label = commandParser.getLabelFromString(row);
                 System.out.println("lc: " + lc);
-                label.memorySlot = lc;
+
+                // We are using 16-bit computer so byte location is short location times 2
+                label.memorySlot = (short)(lc * 2);
                 labels.add(labels.size(), label);
 
                 row = label.command;
@@ -224,8 +226,9 @@ public class Assembler {
             for(int i = 0; i <= lastMemorySlot; i++) {
                 if(commands.containsKey(i)) {
                     os.writeShort(commands.get(i));
+
                 } else {
-                    os.writeShort(0);
+                    os.writeShort((short)0);
                 }
             }
 
