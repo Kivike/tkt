@@ -42,7 +42,7 @@ public class Assembler {
         for(int i = 0; i < rows.size(); i++) {
             String row = rows.get(i);
 
-            if(lc > MAX_LC) {
+            if(lc >= MAX_LC) {
                 System.exit(5);
             }
 
@@ -80,7 +80,7 @@ public class Assembler {
         for(int i = 0; i < rows.size(); i++) {
             String row = rows.get(i);
 
-            if(lc > MAX_LC) {
+            if(lc >= MAX_LC) {
                 System.exit(5);
             }
 

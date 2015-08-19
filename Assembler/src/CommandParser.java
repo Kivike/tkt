@@ -39,16 +39,7 @@ public class CommandParser {
 		} else if(commandType == Command.Type.IO) {
 			command = getTypeIOCommandFromRow(row);
 		} else {
-			// Variable
-			for(int j = 0; j < labels.size(); j++) {
-				if(labels.get(j).name.equals(row)) {
-					command = labels.get(j).memorySlot;
-				}
-			}
-
-			if(command == 0) {
-				System.exit(8);
-			}
+			System.exit(3);
 		}
 
 		return command;
@@ -279,6 +270,10 @@ public class CommandParser {
 
 		label.name = splitString[0];
 		label.command = splitString[1];
+
+		if(label.name.length() > 3) {
+			System.exit(2);
+		}
 
 		return label;
 	}
