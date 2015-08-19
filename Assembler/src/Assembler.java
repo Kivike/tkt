@@ -41,6 +41,13 @@ public class Assembler {
         // Loop through rows
         for(int i = 0; i < rows.size(); i++) {
             String row = rows.get(i);
+            
+        	
+    		int firstSpace = row.indexOf(' ');
+    		if(firstSpace == -1)
+    			firstSpace = 2;
+    		if(row.substring(0,firstSpace).length() >= 3 && !Character.isLetter(row.charAt(0)))
+    			System.exit(2);
 
             if(lc >= MAX_LC) {
                 System.exit(5);
