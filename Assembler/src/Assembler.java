@@ -8,8 +8,22 @@ import java.util.TreeMap;
  */
 public class Assembler {
     private final int MAX_LC = 5000;
+    public static int currentRowNumber = 0;
+
     private String outputFile;
     public static boolean debug;
+
+    public static String[] errorMessages = new String[] {
+            "ORG Value Out of Range",
+            "Bad Symbol",
+            "Unknown Instruction",
+            "Symbol not found",
+            "Memory Overflow",
+            "Number Out Of Range",
+            "Bad number",
+            "General Syntax Error",
+            "File error"
+    };
 
     public void run(String inputFile, String outputFile, boolean debug) {
         this.outputFile = outputFile;
@@ -40,6 +54,8 @@ public class Assembler {
 
         // Loop through rows
         for(int i = 0; i < rows.size(); i++) {
+            currentRowNumber = i + 1;
+
             String row = rows.get(i);
             
         	
@@ -47,10 +63,10 @@ public class Assembler {
     		if(firstSpace == -1)
     			firstSpace = 2;
     		if(row.substring(0,firstSpace).length() >= 3 && !Character.isLetter(row.charAt(0)))
-    			System.exit(2);
+                printErrorAndExit(2);
 
             if(lc >= MAX_LC) {
-                System.exit(5);
+                printErrorAndExit(5);
             }
 
             // Break loop when END is found
@@ -85,10 +101,12 @@ public class Assembler {
         TreeMap<Integer, Short> commandByMemorySlot = new TreeMap<Integer, Short>();
 
         for(int i = 0; i < rows.size(); i++) {
+            currentRowNumber = i + 1;
+
             String row = rows.get(i);
 
             if(lc >= MAX_LC) {
-                System.exit(5);
+                printErrorAndExit(5);
             }
 
             if(row.startsWith("END")) {
@@ -139,10 +157,15 @@ public class Assembler {
             return lines;
         } catch(IOException e) {
             e.printStackTrace();
-            System.exit(1);
+            printErrorAndExit(1);
         }
 
         return null;
+    }
+
+    public static void printErrorAndExit(int errorNumber) {
+        System.err.println(currentRowNumber + ":" + errorMessages[errorNumber - 1]);
+        System.exit(errorNumber);
     }
 
     /*
@@ -199,10 +222,10 @@ public class Assembler {
             os.close();
         } catch(FileNotFoundException fEx) {
             fEx.printStackTrace();
-            System.exit(1);
+            printErrorAndExit(9);
         } catch(IOException ioEx) {
             ioEx.printStackTrace();
-            System.exit(1);
+            printErrorAndExit(9);
         }
     }
 }
