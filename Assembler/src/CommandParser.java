@@ -179,9 +179,9 @@ public class CommandParser {
 
 		try {
 			if(isCommandDirect(splitString)) {
-				firstPart = Command.typeMsymbolsDirect.get(commandType);
+				firstPart = Command.typeMcommandsDirect.get(commandType);
 			} else {
-				firstPart = Command.typeMsymbolsIndirect.get(commandType);
+				firstPart = Command.typeMcommandsIndirect.get(commandType);
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -226,7 +226,7 @@ public class CommandParser {
 	public short getTypeRCommandFromRow(String row) {
 		Command.TypeR commandType = getTypeRCommandTypeFromString(row);
 
-		return Command.typeRsymbols.get(commandType);
+		return Command.typeRcommands.get(commandType);
 	}
 
 	/*
@@ -254,7 +254,7 @@ public class CommandParser {
 	public short getTypeIOCommandFromRow(String row) {
 		Command.TypeIO commandType = getTypeIOCommandTypeFromString(row);
 
-		return Command.typeIOsymbols.get(commandType);
+		return Command.typeIOcommands.get(commandType);
 	}
 
 	/* Get label from string

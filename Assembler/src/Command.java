@@ -36,48 +36,48 @@ public class Command {
 
 	// M type commands only have their first byte known
 	// Rest are given in second part of command
-	public static final HashMap<TypeM, Short> typeMsymbolsDirect = new HashMap<TypeM, Short>();
-	public static final HashMap<TypeM, Short> typeMsymbolsIndirect = new HashMap<TypeM, Short>();
+	public static final HashMap<TypeM, Short> typeMcommandsDirect = new HashMap<TypeM, Short>();
+	public static final HashMap<TypeM, Short> typeMcommandsIndirect = new HashMap<TypeM, Short>();
 
-	public static final HashMap<TypeR, Short> typeRsymbols = new HashMap<TypeR, Short>();
+	public static final HashMap<TypeR, Short> typeRcommands = new HashMap<TypeR, Short>();
 
-	public static final HashMap<TypeIO, Short> typeIOsymbols = new HashMap<TypeIO, Short>();
+	public static final HashMap<TypeIO, Short> typeIOcommands = new HashMap<TypeIO, Short>();
 
 	static {
-		typeMsymbolsDirect.put(TypeM.AND, (short)0x0);
-		typeMsymbolsDirect.put(TypeM.ADD, (short)0x1);
-		typeMsymbolsDirect.put(TypeM.LDA, (short)0x2);
-		typeMsymbolsDirect.put(TypeM.STA, (short)0x3);
-		typeMsymbolsDirect.put(TypeM.BUN, (short)0x4);
-		typeMsymbolsDirect.put(TypeM.BSA, (short)0x5);
-		typeMsymbolsDirect.put(TypeM.ISZ, (short)0x6);
+		typeMcommandsDirect.put(TypeM.AND, (short) 0x0);
+		typeMcommandsDirect.put(TypeM.ADD, (short) 0x1);
+		typeMcommandsDirect.put(TypeM.LDA, (short) 0x2);
+		typeMcommandsDirect.put(TypeM.STA, (short) 0x3);
+		typeMcommandsDirect.put(TypeM.BUN, (short) 0x4);
+		typeMcommandsDirect.put(TypeM.BSA, (short) 0x5);
+		typeMcommandsDirect.put(TypeM.ISZ, (short) 0x6);
 
-		typeMsymbolsIndirect.put(TypeM.AND, (short)0x8);
-		typeMsymbolsIndirect.put(TypeM.ADD, (short)0x9);
-		typeMsymbolsIndirect.put(TypeM.LDA, (short)0xA);
-		typeMsymbolsIndirect.put(TypeM.STA, (short)0xB);
-		typeMsymbolsIndirect.put(TypeM.BUN, (short)0xC);
-		typeMsymbolsIndirect.put(TypeM.BSA, (short)0xD);
-		typeMsymbolsIndirect.put(TypeM.ISZ, (short)0xE);
+		typeMcommandsIndirect.put(TypeM.AND, (short) 0x8);
+		typeMcommandsIndirect.put(TypeM.ADD, (short) 0x9);
+		typeMcommandsIndirect.put(TypeM.LDA, (short) 0xA);
+		typeMcommandsIndirect.put(TypeM.STA, (short) 0xB);
+		typeMcommandsIndirect.put(TypeM.BUN, (short) 0xC);
+		typeMcommandsIndirect.put(TypeM.BSA, (short) 0xD);
+		typeMcommandsIndirect.put(TypeM.ISZ, (short) 0xE);
 
-		typeRsymbols.put(TypeR.CLA, (short)0x7800);
-		typeRsymbols.put(TypeR.CLE, (short)0x7400);
-		typeRsymbols.put(TypeR.CMA, (short)0x7200);
-		typeRsymbols.put(TypeR.CME, (short)0x7100);
-		typeRsymbols.put(TypeR.CIR, (short)0x7080);
-		typeRsymbols.put(TypeR.CIL, (short)0x7040);
-		typeRsymbols.put(TypeR.INC, (short)0x7020);
-		typeRsymbols.put(TypeR.SPA, (short)0x7010);
-		typeRsymbols.put(TypeR.SNA, (short)0x7008);
-		typeRsymbols.put(TypeR.SZA, (short)0x7004);
-		typeRsymbols.put(TypeR.SZE, (short)0x7002);
-		typeRsymbols.put(TypeR.HLT, (short)0x7001);
+		typeRcommands.put(TypeR.CLA, (short) 0x7800);
+		typeRcommands.put(TypeR.CLE, (short) 0x7400);
+		typeRcommands.put(TypeR.CMA, (short) 0x7200);
+		typeRcommands.put(TypeR.CME, (short) 0x7100);
+		typeRcommands.put(TypeR.CIR, (short) 0x7080);
+		typeRcommands.put(TypeR.CIL, (short) 0x7040);
+		typeRcommands.put(TypeR.INC, (short) 0x7020);
+		typeRcommands.put(TypeR.SPA, (short) 0x7010);
+		typeRcommands.put(TypeR.SNA, (short) 0x7008);
+		typeRcommands.put(TypeR.SZA, (short) 0x7004);
+		typeRcommands.put(TypeR.SZE, (short) 0x7002);
+		typeRcommands.put(TypeR.HLT, (short) 0x7001);
 
-		typeIOsymbols.put(TypeIO.INP, (short)0xF800);
-		typeIOsymbols.put(TypeIO.OUT, (short)0xF400);
-		typeIOsymbols.put(TypeIO.SKI, (short)0xF200);
-		typeIOsymbols.put(TypeIO.SKO, (short)0xF100);
-		typeIOsymbols.put(TypeIO.ION, (short)0xF080);
-		typeIOsymbols.put(TypeIO.IOF, (short)0xF040);
+		typeIOcommands.put(TypeIO.INP, (short) 0xF800);
+		typeIOcommands.put(TypeIO.OUT, (short) 0xF400);
+		typeIOcommands.put(TypeIO.SKI, (short) 0xF200);
+		typeIOcommands.put(TypeIO.SKO, (short) 0xF100);
+		typeIOcommands.put(TypeIO.ION, (short) 0xF080);
+		typeIOcommands.put(TypeIO.IOF, (short) 0xF040);
 	}
 }
