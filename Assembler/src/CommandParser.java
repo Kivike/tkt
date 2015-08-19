@@ -13,8 +13,12 @@ public class CommandParser {
 			try {
 				origin = Short.parseShort(splitString[1], 16);
 			} catch(Exception ex){
-				// TODO: THROW ERROR
+				System.exit(7);
 			}
+		}
+		
+		if(origin >= 5000){
+			System.exit(1);
 		}
 
 		return origin;
@@ -27,6 +31,7 @@ public class CommandParser {
 	 * @return Returns command as short (handle as hexadecimal)
 	 **/
 	public short parseCommandFromRow(String row, ArrayList<Label> labels) {
+			
 		Command.Type commandType = getCommandType(row);
 		short command = 0;
 
