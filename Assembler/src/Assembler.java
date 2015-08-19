@@ -57,12 +57,11 @@ public class Assembler {
             currentRowNumber = i + 1;
 
             String row = rows.get(i);
-            
-        	
-    		int firstSpace = row.indexOf(' ');
-    		if(firstSpace == -1)
-    			firstSpace = 2;
-    		if(row.substring(0,firstSpace).length() >= 3 && !Character.isLetter(row.charAt(0)))
+
+            int firstSpace = row.indexOf(' ');
+            if(firstSpace == -1)
+                firstSpace = 2;
+            if(row.substring(0,firstSpace).length() >= 3 && !Character.isLetter(row.charAt(0)))
                 printErrorAndExit(2);
 
             if(lc >= MAX_LC) {

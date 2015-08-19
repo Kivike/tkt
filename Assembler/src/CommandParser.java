@@ -1,3 +1,4 @@
+import java.text.ParseException;
 import java.util.*;
 
 /*
@@ -12,13 +13,13 @@ public class CommandParser {
 
 			try {
 				origin = Short.parseShort(splitString[1], 16);
-			} catch(Exception ex){
-				System.exit(7);
+			} catch(NumberFormatException ex){
+				Assembler.printErrorAndExit(7);
 			}
 		}
 		
 		if(origin >= 5000){
-			System.exit(1);
+			Assembler.printErrorAndExit(1);
 		}
 
 		return origin;
@@ -44,7 +45,7 @@ public class CommandParser {
 		} else if(commandType == Command.Type.IO) {
 			command = getTypeIOCommandFromRow(row);
 		} else {
-			System.exit(3);
+			Assembler.printErrorAndExit(3);
 		}
 
 		return command;
@@ -189,8 +190,7 @@ public class CommandParser {
 				firstPart = Command.typeMcommandsIndirect.get(commandType);
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
-			System.exit(4);
+			Assembler.printErrorAndExit(4);
 		}
 
 		return firstPart;
@@ -200,27 +200,26 @@ public class CommandParser {
 	 * Get second part of M command (command parameter)
 	 */
 	private short getMTypeCommandSecondPart(String[] splitString, ArrayList<Label> labels) {
-		short secondPart = 0;
+		short secondPart = -1;
 
 		if(Character.isDigit(splitString[1].charAt(0))) {
 			try {
 				secondPart = Short.parseShort(splitString[1], 16);
 			} catch (Exception ex) {
-				ex.printStackTrace();
-				System.exit(7);
+				Assembler.printErrorAndExit(7);
 			}
 		} else {
-			try {
-				for(int i = 0; i < labels.size(); i++) {
-					Label label = labels.get(i);
+			for(int i = 0; i < labels.size(); i++) {
+				Label label = labels.get(i);
 
-					if(label.name.equals(splitString[1])) {
-						secondPart = label.memorySlot;
-					}
+				if(label.name.equals(splitString[1])) {
+					secondPart = label.memorySlot;
 				}
-			} catch(Exception ex) {
-				// TODO: Throw error
 			}
+		}
+
+		if(secondPart == -1) {
+			Assembler.printErrorAndExit(4);
 		}
 
 		return secondPart;
@@ -241,13 +240,23 @@ public class CommandParser {
 		String[] splitString = row.split(" ");
 
 		short command = 0x0;
+		int intCmd = 0x0;
+		try {
+			if(splitString[0].equals("HEX")) {
+				intCmd = Integer.parseInt(splitString[1], 16);
+			} else if(splitString[0].equals("DEC")) {
+				intCmd = Integer.parseInt(splitString[1], 10);
+			} else {
+				Assembler.printErrorAndExit(3);
+			}
+		} catch (NumberFormatException ex) {
+			Assembler.printErrorAndExit(7);
+		}
 
-		if(splitString[0].equals("HEX")) {
-			command = Short.parseShort(splitString[1], 16);
-		} else if(splitString[0].equals("DEC")) {
-			command = Short.parseShort(splitString[1], 10);
+		if(intCmd > Short.MAX_VALUE) {
+			Assembler.printErrorAndExit(6);
 		} else {
-			System.exit(3);
+			command = (short)intCmd;
 		}
 
 		return command;
@@ -277,7 +286,7 @@ public class CommandParser {
 		label.command = splitString[1];
 
 		if(label.name.length() > 3) {
-			System.exit(2);
+			Assembler.printErrorAndExit(2);
 		}
 
 		return label;
