@@ -39,8 +39,11 @@ public class Cleaner {
 		return str;
 	}
 
+	/*
+	 * Clean all given rows from extra whitespaces, comments etc.
+	 */
 	public ArrayList<String> cleanAll(ArrayList<String> rows) {
-		if(Assembler.debug) System.out.println("#### CLEAN ALL ROWS ####");
+		if(Main.DEBUG_MODE) System.out.println("#### CLEAN ALL ROWS ####");
 
 		ArrayList<String> newRows = new ArrayList<String>();
 
@@ -60,7 +63,7 @@ public class Cleaner {
 			newRows.add(row);
 		}
 
-		if(Assembler.debug) Assembler.printRows(newRows);
+		if(Main.DEBUG_MODE) Assembler.printRows(newRows);
 
 		return newRows;
 	}

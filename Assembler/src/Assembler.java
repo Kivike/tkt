@@ -1,4 +1,6 @@
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
@@ -7,11 +9,10 @@ import java.util.TreeMap;
  * Assembler creates binary file from text file with basic computer commands
  */
 public class Assembler {
-    private final int MAX_LC = 5000;
+    public final static int MEMORY_WORDS = 4096;
     public static int currentRowNumber = 0;
 
     private String outputFile;
-    public static boolean debug;
 
     public static String[] errorMessages = new String[] {
             "ORG Value Out of Range",
@@ -25,9 +26,8 @@ public class Assembler {
             "File error"
     };
 
-    public void run(String inputFile, String outputFile, boolean debug) {
+    public void run(String inputFile, String outputFile) {
         this.outputFile = outputFile;
-        this.debug = debug;
 
         ArrayList<String> rows = readFile(inputFile);
 
@@ -39,7 +39,9 @@ public class Assembler {
 
         ArrayList<Label> labels = new ArrayList<Label>();
         rows = firstIteration(labels, rows, commandParser);
-        TreeMap<Integer, Short> commands = secondIteration(labels, rows, commandParser);;
+
+        // TreeMap is an HashMap which is ordered by key values
+        TreeMap<Short, Short> commands = secondIteration(labels, rows, commandParser);;
 
         writeOutputFile(commands);
     }
@@ -48,7 +50,7 @@ public class Assembler {
 	 * First iteration fetches labels from text and stores them to ArrayList of labels (see Label class)
 	 */
     private ArrayList<String> firstIteration(ArrayList<Label> labels, ArrayList<String> rows, CommandParser commandParser) {
-        if(debug) System.out.println("#### FIRST ITERATION ####");
+        if(Main.DEBUG_MODE) System.out.println("#### FIRST ITERATION ####");
 
         short lc = 0;
 
@@ -58,13 +60,7 @@ public class Assembler {
 
             String row = rows.get(i);
 
-            int firstSpace = row.indexOf(' ');
-            if(firstSpace == -1)
-                firstSpace = 2;
-            if(row.substring(0,firstSpace).length() >= 3 && !Character.isLetter(row.charAt(0)))
-                printErrorAndExit(2);
-
-            if(lc >= MAX_LC) {
+            if(lc >= MEMORY_WORDS) {
                 printErrorAndExit(5);
             }
 
@@ -85,10 +81,8 @@ public class Assembler {
             if (commandParser.rowIsLabel(row)) {
                 // If row is label, get the int value and add it to dict by its name
                 Label label = commandParser.getLabelFromString(row);
-                System.out.println("lc: " + lc);
 
-                // We are using 16-bit computer so byte location is short location times 2
-                label.memorySlot = (short)(lc * 2);
+                label.memorySlot = lc;
                 labels.add(labels.size(), label);
 
                 row = label.command;
@@ -97,7 +91,7 @@ public class Assembler {
             lc++;
         }
 
-        if(debug) printLabels(labels);
+        if(Main.DEBUG_MODE) printLabels(labels);
 
         return rows;
     }
@@ -105,18 +99,18 @@ public class Assembler {
     /*
      * Second iteration gets command integer for each row and stores them by memory slot to HashMap
      */
-    private TreeMap<Integer, Short> secondIteration(ArrayList<Label> labels, ArrayList<String> rows, CommandParser commandParser) {
-        if(debug) System.out.println("#### SECOND ITERATION ####");
+    private TreeMap<Short, Short> secondIteration(ArrayList<Label> labels, ArrayList<String> rows, CommandParser commandParser) {
+        if(Main.DEBUG_MODE) System.out.println("#### SECOND ITERATION ####");
 
         int lc = 0;
-        TreeMap<Integer, Short> commandByMemorySlot = new TreeMap<Integer, Short>();
+        TreeMap<Short, Short> commandByMemorySlot = new TreeMap<Short, Short>();
 
         for(int i = 0; i < rows.size(); i++) {
             currentRowNumber = i + 1;
 
             String row = rows.get(i);
 
-            if(lc >= MAX_LC) {
+            if(lc >= MEMORY_WORDS) {
                 printErrorAndExit(5);
             }
 
@@ -125,7 +119,8 @@ public class Assembler {
             }
 
             // We checked for labels in first iteration, skip them in second
-            if(row.contains(",")) {
+            // Although we shouldn't have labels left at this point
+            if(commandParser.rowIsLabel(row)) {
                 continue;
             }
 
@@ -139,18 +134,18 @@ public class Assembler {
             }
 
             short command = commandParser.parseCommandFromRow(row, labels);
-            commandByMemorySlot.put(lc, command);
+            commandByMemorySlot.put((short)(lc), command);
 
             lc++;
         }
 
-        if(debug) printCommands(commandByMemorySlot);
+        if(Main.DEBUG_MODE) printCommands(commandByMemorySlot);
 
         return commandByMemorySlot;
     }
 
     public ArrayList<String> readFile(String filename){
-        if(debug) System.out.println("#### READ FILE ####");
+        if(Main.DEBUG_MODE) System.out.println("#### READ FILE ####");
 
         try {
             BufferedReader br = new BufferedReader(new FileReader(filename));
@@ -163,12 +158,12 @@ public class Assembler {
             }
             br.close();
 
-            if(debug) printRows(lines);
+            if(Main.DEBUG_MODE) printRows(lines);
 
             return lines;
         } catch (IOException e) {
             e.printStackTrace();
-            printErrorAndExit(1);
+            printErrorAndExit(9);
         }
 
         return null;
@@ -176,6 +171,7 @@ public class Assembler {
 
     public static void printErrorAndExit(int errorNumber) {
         System.err.println(currentRowNumber + ":" + errorMessages[errorNumber - 1]);
+
         System.exit(errorNumber);
     }
 
@@ -202,10 +198,10 @@ public class Assembler {
     /*
      * Print TreeMap<Integer MEMORYSLOT, Short COMMAND> commands
      */
-    public static void printCommands(TreeMap<Integer, Short> commands) {
+    public static void printCommands(TreeMap<Short, Short> commands) {
         System.out.println("[MEMORY SLOT] COMMAND");
-        for(Map.Entry<Integer, Short> entry : commands.entrySet()) {
-            Integer memorySlot = entry.getKey();
+        for(Map.Entry<Short, Short> entry : commands.entrySet()) {
+            Short memorySlot = entry.getKey();
             Short command = entry.getValue();
 
             System.out.printf("[%s] %s\n", Integer.toHexString(memorySlot), Integer.toHexString(command & 0xffff));
@@ -215,24 +211,31 @@ public class Assembler {
     /*
      * Write commands to a binary file (16-bit)
      */
-    public void writeOutputFile(TreeMap<Integer, Short> commands) {
-        if(debug) System.out.println("#### WRITE BINARY TO FILE ####");
-
-        int lastMemorySlot = commands.lastKey();
+    public void writeOutputFile(TreeMap<Short, Short> commands) {
+        if(Main.DEBUG_MODE) System.out.println("#### WRITE BINARY TO FILE ####");
 
         try {
-            DataOutputStream os = new DataOutputStream(new FileOutputStream(outputFile));
+            DataOutputStream out = new DataOutputStream(new FileOutputStream(outputFile));
 
-            for(int i = 0; i <= lastMemorySlot; i++) {
-                if(commands.containsKey(i)) {
-                    os.writeShort(commands.get(i));
+            for(short memorySlotIndex = 0; memorySlotIndex < MEMORY_WORDS; memorySlotIndex++) {
+                if(commands.containsKey(memorySlotIndex)) {
+                    byte[] bytes = new byte[2];
 
+                    short command = commands.get(memorySlotIndex);
+
+                    // writeShort uses little-endian for shorts so we have to divide short
+                    // into two bytes and use writeByte
+                    bytes[0] = (byte)(command & 0xff);
+                    bytes[1] = (byte)((command >> 8) & 0xff);
+
+                    out.writeByte(bytes[0]);
+                    out.writeByte(bytes[1]);
                 } else {
-                    os.writeShort((short)0);
+                    out.writeShort((short)0);
                 }
             }
 
-            os.close();
+            out.close();
         } catch(FileNotFoundException fEx) {
             fEx.printStackTrace();
             printErrorAndExit(9);

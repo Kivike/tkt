@@ -4,12 +4,6 @@ import java.util.HashMap;
  * Database of command types and their hex values
  */
 public class Command {
-	// Type of command
-	public enum Type {
-		None,
-		Pseudo, M, R, IO
-	}
-
 	// Pseudo commands
 	public enum Pseudo {
 		None,

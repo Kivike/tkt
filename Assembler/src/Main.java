@@ -29,13 +29,13 @@ public class Main {
 		Assembler assembler = new Assembler();
 
 		try {
-			assembler.run(inputFile, outputFile, DEBUG_MODE);
+			assembler.run(inputFile, outputFile);
 		} catch (Exception ex) {
 			System.out.println("Unexpected error");
 			System.exit(8);
 		}
 
-		System.out.println("Completed succesfully");
+		System.out.println(inputFile + " succesfully assembled to " + outputFile);
 		System.exit(0);
 	}
 
@@ -55,7 +55,7 @@ public class Main {
 			} else {
 				inputFile = args[0];
 			}
-		} else if(args.length == 2) {
+		} else if(args.length >= 2) {
 			inputFile = args[0];
 			outputFile = args[1];
 		}

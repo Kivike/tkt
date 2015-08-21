@@ -17,8 +17,8 @@ public class CommandParser {
 				Assembler.printErrorAndExit(7);
 			}
 		}
-		
-		if(origin >= 5000){
+
+		if(origin >= Assembler.MEMORY_WORDS){
 			Assembler.printErrorAndExit(1);
 		}
 
@@ -32,25 +32,43 @@ public class CommandParser {
 	 * @return Returns command as short (handle as hexadecimal)
 	 **/
 	public short parseCommandFromRow(String row, ArrayList<Label> labels) {
-			
-		Command.Type commandType = getCommandType(row);
-		short command = 0;
-
-		if(commandType == Command.Type.Pseudo) {
-			command = getPseudoCommandFromRow(row);
-		} else if(commandType == Command.Type.M) {
-			command = getTypeMCommandFromRow(row, labels);
-		} else if(commandType == Command.Type.R) {
-			command = getTypeRCommandFromRow(row);
-		} else if(commandType == Command.Type.IO) {
-			command = getTypeIOCommandFromRow(row);
-		} else {
-			Assembler.printErrorAndExit(3);
+		// Check if command is a pseudo comand
+		for(Command.Pseudo pseudo : Command.Pseudo.values()) {
+			if(row.startsWith(pseudo.name())) {
+				return getPseudoCommandFromRow(row);
+			}
 		}
 
-		return command;
+		// Check if command is of type M
+		for(Command.TypeM typeM : Command.TypeM.values()) {
+			if(row.startsWith(typeM.name())) {
+				return getTypeMCommandFromRow(row, labels);
+			}
+		}
+
+		// Check if command is of type R
+		for(Command.TypeR typeR : Command.TypeR.values()) {
+			if(row.startsWith(typeR.name())) {
+				return Command.typeRcommands.get(typeR);
+			}
+		}
+
+		// Check if command is of type IO
+		for(Command.TypeIO typeIO : Command.TypeIO.values()) {
+			if(row.startsWith(typeIO.name())) {
+				return Command.typeIOcommands.get(typeIO);
+			}
+		}
+
+		// No command was found, exit
+		Assembler.printErrorAndExit(3);
+
+		return -1;
 	}
 
+	/*
+	 * Check if row is label (contains ,-symbol)
+	 */
 	public boolean rowIsLabel(String row) {
 		return row.contains(",") ? true : false;
 	}
@@ -70,42 +88,6 @@ public class CommandParser {
 	}
 
 	/*
-	 * Get type of the command from row (Pseudo, M, R, IO)
-	 */
-	public Command.Type getCommandType(String row) {
-		// Check if command is of type M
-		for(Command.TypeM typeM : Command.TypeM.values()) {
-			if(row.startsWith(typeM.name())) {
-				return Command.Type.M;
-			}
-		}
-
-		// Check if command is of type R
-		for(Command.TypeR typeR : Command.TypeR.values()) {
-			if(row.startsWith(typeR.name())) {
-				return Command.Type.R;
-			}
-		}
-
-		// Check if command is of type IO
-		for(Command.TypeIO typeIO : Command.TypeIO.values()) {
-			if(row.startsWith(typeIO.name())) {
-				return Command.Type.IO;
-			}
-		}
-
-		// Check if command is a pseudo comand
-		for(Command.Pseudo pseudo : Command.Pseudo.values()) {
-			if(row.startsWith(pseudo.name())) {
-				return Command.Type.Pseudo;
-			}
-		}
-
-		// If no command was found, return none as command type
-		return Command.Type.None;
-	}
-
-	/*
 	 * Get type of M command
 	 */
 	private Command.TypeM getTypeMCommandTypeFromString(String string) {
@@ -116,43 +98,6 @@ public class CommandParser {
 		}
 
 		return Command.TypeM.None;
-	}
-
-	// Get type of R command
-	private Command.TypeR getTypeRCommandTypeFromString(String string) {
-		for(Command.TypeR typeR : Command.TypeR.values()) {
-			if(string.startsWith(typeR.name())) {
-				return typeR;
-			}
-		}
-
-		return Command.TypeR.None;
-	}
-
-	/*
-	 * Get type of IO command
-	 */
-	private Command.TypeIO getTypeIOCommandTypeFromString(String string) {
-		for(Command.TypeIO typeIO : Command.TypeIO.values()) {
-			if(string.startsWith(typeIO.name())) {
-				return typeIO;
-			}
-		}
-
-		return Command.TypeIO.None;
-	}
-
-	/*
-	 * Get type of pseudocommand
-	 */
-	public Command.Pseudo getPseudoCommandTypeFromString(String string) {
-		for(Command.Pseudo pseudo : Command.Pseudo.values()) {
-			if(string.startsWith(pseudo.name())) {
-				return pseudo;
-			}
-		}
-
-		return Command.Pseudo.None;
 	}
 
 	/*
@@ -170,8 +115,6 @@ public class CommandParser {
 		short command;
 		String firstPart = Integer.toHexString(getMTypeCommandFirstPart(splitString, commandType));
 		String secondPart = Integer.toHexString(getMTypeCommandSecondPart(splitString, labels));
-
-		if(Assembler.debug) System.out.println("Mtype, First:" + firstPart + " Second:" + secondPart);
 
 		command = (short)Integer.parseInt(firstPart + secondPart, 16);
 		return command;
@@ -224,14 +167,6 @@ public class CommandParser {
 
 		return secondPart;
 	}
-	/*
-	 * Parse type R command from a row and return command as integer
-	 */
-	public short getTypeRCommandFromRow(String row) {
-		Command.TypeR commandType = getTypeRCommandTypeFromString(row);
-
-		return Command.typeRcommands.get(commandType);
-	}
 
 	/*
 	 * Parse HEX or DEC pseudocommand from a row and return comamand as integer
@@ -240,7 +175,11 @@ public class CommandParser {
 		String[] splitString = row.split(" ");
 
 		short command = 0x0;
+
+		// First we parse command to int to seperate invalid number
+		// exception from too big number exception
 		int intCmd = 0x0;
+
 		try {
 			if(splitString[0].equals("HEX")) {
 				intCmd = Integer.parseInt(splitString[1], 16);
@@ -260,15 +199,6 @@ public class CommandParser {
 		}
 
 		return command;
-	}
-
-	/*
-	 * Parse type IO command from a row and return command as integer
-	 */
-	public short getTypeIOCommandFromRow(String row) {
-		Command.TypeIO commandType = getTypeIOCommandTypeFromString(row);
-
-		return Command.typeIOcommands.get(commandType);
 	}
 
 	/* Get label from string
