@@ -142,6 +142,9 @@ public class Assembler {
         return commandByMemorySlot;
     }
 
+    /*
+     * Reads file with given name and returns its rows as ArrayList
+     */
     public ArrayList<String> readFile(String filename){
         if(Main.DEBUG_MODE) System.out.println("#### READ FILE ####");
 

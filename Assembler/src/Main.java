@@ -12,13 +12,15 @@
  *******************************
  */
 
-/*
- * TODO: Handle rest of exceptions (https://wiki.oulu.fi/display/TKT/CodeAnAssembler)
- */
+
 public class Main {
-	// Show debug logs
-	final static boolean DEBUG_MODE = true;
+	// Show debug logs?
+	final static boolean DEBUG_MODE = false;
+
+	// File to open when no file is given as command line argument
 	final static String TEST_FILE = "./testi006.asm";
+
+	// Output file when no output/only input file is given
 	final static String DEFAULT_OUTPUT_FILE = "./output.bin";
 
 	private static String inputFile;
@@ -49,7 +51,7 @@ public class Main {
 
 		if(args.length == 1) {
 			if(args[0].equals("--info")) {
-				System.out.printf("Peetu Nuottaj�rvi, %d\n", (6969696));
+				System.out.printf("Peetu Nuottaj�rvi, %d\n", (2374491));
 				System.out.printf("Roope Rajala, %d\n", (2374556));
 				return;
 			} else {

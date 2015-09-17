@@ -26,9 +26,9 @@ public class CommandParser {
 
 	/**
 	 * Parse basic computer command from a string row
-	 * @param row Row to parse command from
-	 * @param labels List of labels fetched at first iteration
-	 * @return Returns command as short (handle as hexadecimal)
+	 * labels = ArrayList of labels that were fetched at first iteration
+	 *
+	 * returns the command as short
 	 **/
 	public short parseCommandFromRow(String row, ArrayList<Label> labels) {
 		// Check if command is a pseudo comand
@@ -48,14 +48,14 @@ public class CommandParser {
 		// Check if command is of type R
 		for(Command.TypeR typeR : Command.TypeR.values()) {
 			if(row.startsWith(typeR.name())) {
-				return Command.typeRcommands.get(typeR);
+				return Command.R.get(typeR);
 			}
 		}
 
 		// Check if command is of type IO
 		for(Command.TypeIO typeIO : Command.TypeIO.values()) {
 			if(row.startsWith(typeIO.name())) {
-				return Command.typeIOcommands.get(typeIO);
+				return Command.IO.get(typeIO);
 			}
 		}
 
@@ -127,9 +127,9 @@ public class CommandParser {
 
 		try {
 			if(isCommandDirect(splitString)) {
-				firstPart = Command.typeMcommandsDirect.get(commandType);
+				firstPart = Command.MDirect.get(commandType);
 			} else {
-				firstPart = Command.typeMcommandsIndirect.get(commandType);
+				firstPart = Command.MIndirect.get(commandType);
 			}
 		} catch (Exception ex) {
 			Assembler.printErrorAndExit(4);
